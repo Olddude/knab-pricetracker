@@ -2,3 +2,5 @@ node_modules
 readme.md
 error.log
 .gitignore
+logs.log
+.env
