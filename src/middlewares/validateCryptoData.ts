@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 
 const schema = Joi.object({
   email: Joi.string().email().required(),
-  cryptocurrency: Joi.string().valid("BTC").required(),
+  cryptocurrency: Joi.string().valid("BTC").required(), // Locked to BTC for now
 });
 
 const validateCryptoData = (

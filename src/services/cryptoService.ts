@@ -6,9 +6,8 @@ import { ICryptoData, IExchangeRates } from "../types/types";
 import logger from "../utils/logger";
 
 class CryptoService {
-  async startSendingCryptoUpdates(email: string, cryptocurrency: string) {
-    cron.schedule(process.env.CRON_SCHEDULE!, async () => {
-      try {
+  async sendCryptoUpdates(email: string, cryptocurrency: string) {
+    try {
         const erHeaders = {
           apikey: process.env.EXCHANGE_RATES_API_KEY,
           Accepts: "application/json",
@@ -52,10 +51,18 @@ class CryptoService {
         const timestamp = format(new Date(), "do MMMM yyyy, HH:mm");
         logger.info(`Email sent to ${email} at ${timestamp}`);
       } catch (error) {
-        logger.error(`Failed to fetch data and send email for ${email}: ${error}`);
-      }
+        logger.error(
+          `Failed to fetch data and send email for ${email}: ${error}`
+        );
+    }
+  }
+
+  async startSendingCryptoUpdates(email: string, cryptocurrency: string) {
+    cron.schedule(process.env.CRON_SCHEDULE!, () => {
+      this.sendCryptoUpdates(email, cryptocurrency);
     });
   }
+      
 }
 
 export default new CryptoService();

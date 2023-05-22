@@ -1,4 +1,3 @@
-import { text } from "express";
 import nodemailer from "nodemailer";
 
 class EmailService {
